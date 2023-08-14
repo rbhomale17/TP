@@ -3,7 +3,7 @@
  * @openapi
  * tags:
  *   name: Home
- *   description: API routes related to Flight
+ *   description: Home API route
  */
 app.get('/', (req, res) => {
     /**
