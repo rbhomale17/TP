@@ -2,9 +2,55 @@ const express = require('express');
 const BookingModel = require('../models/Booking.Model');
 const BookingRouter = express.Router();
 
+/**
+ * @openapi
+ * tags:
+ *   name: Booking
+ *   description: API routes related to Flight
+ */
+
+
 BookingRouter.get('/', (req, res) => {
     res.send({ msg: 'Welcoe to Booing Router' })
 })
+
+/**
+ * @openapi
+ * /api/booking:
+ *   post:
+ *     summary: Create a New Booking
+ *     tags: [Booking]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewBooking'
+ *     responses:
+ *       '201':
+ *         description: Booking created successfully
+ *       '400':
+ *         description: Error in creating booking
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     NewBooking:
+ *       type: object
+ *       properties:
+ *         user:
+ *           type: string
+ *           description: User ID (reference to User model)
+ *         flight:
+ *           type: string
+ *           description: Flight ID (reference to Flight model)
+ *       example:
+ *         user: 64da3f6cb0981d68d35e761e
+ *         flight: 64da18d08da9762db6ae7f2d
+ */
+
 
 BookingRouter.post('/booking', async (req, res) => {
     const { user, flight } = req.body;
@@ -18,6 +64,22 @@ BookingRouter.post('/booking', async (req, res) => {
     }
 });
 
+/**
+ * @openapi
+ * /api/dashboard:
+ *   get:
+ *     summary: Get all Bookings 
+ *     tags: [Booking]
+ *     responses:
+ *       '200':
+ *         description: List of all bookings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ */
+
 BookingRouter.get('/dashboard', async (req, res) => {
     try {
         let BookingData = await BookingModel.find().populate('user').populate('flight');
@@ -27,6 +89,28 @@ BookingRouter.get('/dashboard', async (req, res) => {
     }
 })
 
+/**
+ * @openapi
+ * /api/dashboard/{id}:
+ *   get:
+ *     summary: Get Booking By ID 
+ *     tags: [Booking]
+ *     parameters:
+ *       - in: path
+ *         name: Insert id Here
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: 64da1d9822687df5538ba122
+ *     responses:
+ *       '200':
+ *         description: List of all bookings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ */
 BookingRouter.get('/dashboard/:id', async (req, res) => {
     try {
         if (!req.params.id) return res.send({ msg: 'Please Provide ID' })
@@ -36,6 +120,50 @@ BookingRouter.get('/dashboard/:id', async (req, res) => {
         res.send({ err: error.message })
     }
 })
+
+/**
+ * @openapi
+ * /api/dashboard/{id}:
+ *   patch:
+ *     summary: Update Booking By ID
+ *     tags: [Booking]
+ *     parameters:
+ *       - in: path
+ *         name: Insert id Here to Update
+ *         required: true
+ *         schema:
+ *           type: string
+ *           default: 64da1d9822687df5538ba122
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateBooking'
+ *     responses:
+ *       '200':
+ *         description: Booking updated successfully
+ *       '400':
+ *         description: Error in updating booking
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     UpdateBooking:
+ *       type: object
+ *       properties:
+ *         user:
+ *           type: string
+ *           description: User ID (reference to User model)
+ *         flight:
+ *           type: string
+ *           description: Flight ID (reference to Flight model)
+ *       example:
+ *         user: 64da3f6cb0981d68d35e761e
+ *         flight: 64da18d08da9762db6ae7f2d
+ */
 
 BookingRouter.patch('/dashboard/:id', async (req, res) => {
     try {
@@ -51,6 +179,25 @@ BookingRouter.patch('/dashboard/:id', async (req, res) => {
         res.send({ err: error.message })
     }
 })
+
+/**
+ * @openapi
+ * /api/dashboard/{id}:
+ *   delete:
+ *     summary: Delete Booking By ID
+ *     tags: [Booking]
+ *     parameters:
+ *       - in: path
+ *         name: Insert id Here to Delete
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Flight deleted successfully
+ *       '400':
+ *         description: Error in deleting flight
+ */
 
 BookingRouter.delete('/dashboard/:id', async (req, res) => {
     try {
