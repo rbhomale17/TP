@@ -22,13 +22,13 @@ app.get('/', (req, res) => {
      *               name: Rushikesh Diliprao Bhomale
      *               student_code: fw25_348
      *               unit: RN101
-     *               documentation_link: https://air-ticket-booking-server-fw25-348.onrender.com/documentation
+     *               documentation_link: https://air-ticket-system-documantation.onrender.com/documentation/
      */
     res.send({
         msg: 'Welcome To Air Ticket Booking Backend',
         name: 'Rushikesh Diliprao Bhomale',
         student_code: 'fw25_348',
         unit: 'RN101',
-        documentation_link: 'https://air-ticket-booking-server-fw25-348.onrender.com/documentation'
+        documentation_link: 'https://air-ticket-system-documantation.onrender.com/documentation/'
     });
 });
